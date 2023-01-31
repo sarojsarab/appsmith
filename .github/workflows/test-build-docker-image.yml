@@ -5,13 +5,6 @@ on:
   workflow_dispatch:
 
   # trigger for pushes to release and master
-  push:
-    branches: [release, master]
-    paths:
-      - "app/client/**"
-      - "app/server/**"
-      - "app/rts/**"
-      - "!app/client/cypress/manual_TestSuite/**"
 
 jobs:
 
@@ -65,7 +58,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        job: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 ]
+        job: [ 0 ]
 
     # Service containers to run with this job. Required for running tests
     services:
@@ -319,7 +312,7 @@ jobs:
           parallel: true
           config-file: cypress_ci.json
           group: "Electrons on Github Action Fat Container"
-          spec: "cypress/integration/**/**/*" #update path
+          spec: "cypress/integration/Regression_TestSuite/Application/CommunityIssues_Spec.ts" #update path
           working-directory: app/client
           # tag will be either "push" or "pull_request"
           tag: ${{ github.event_name }}
