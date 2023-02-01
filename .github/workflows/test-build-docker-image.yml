@@ -42,14 +42,12 @@ jobs:
   ci-test:
     needs: [rts-build]
     # Only run if the build step is successful
-    # If the build has been triggered manually via workflow_dispatch or via a push to protected branches
-    # then we don't check for the PR approved state
     if: success()
     name: ci-test
     uses: ./.github/workflows/ci-test.yml
     secrets: inherit
     with:
-      pr: ${{ github.event.client_payload.pull_request.number }}
+      pr: 0
       
   ci-test-result:
     needs: [ci-test]
