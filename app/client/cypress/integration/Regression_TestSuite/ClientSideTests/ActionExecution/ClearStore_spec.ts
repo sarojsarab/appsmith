@@ -11,6 +11,7 @@ describe("clearStore Action test", () => {
         storeValue: async () => {
             let values =
               [
+              
                 storeValue('val1', 'value 1'),
                 storeValue('val2', 'value 2'),
                 storeValue('val3', 'value 3'),
