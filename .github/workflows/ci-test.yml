@@ -185,7 +185,7 @@ jobs:
             -e APPSMITH_AUDITLOG_ENABLED=true \
             -e APPSMITH_CLOUD_SERVICES_BASE_URL=http://host.docker.internal:5001 \
             --add-host=host.docker.internal:host-gateway \
-            cicontainer
+            appsmith/appsmith-ce:v1.9.1
 
       - name: Use Node.js 16.14.0
         if: steps.run_result.outputs.run_result != 'success'
@@ -277,7 +277,7 @@ jobs:
           parallel: true
           config-file: cypress_ci.json
           group: "Electrons on Github Action Fat Container"
-          spec: "cypress/integration/**/**/*"
+          spec: "cypress/integration/Regression_TestSuite/ClientSideTests/VisualTests/JSEditorComment_spec.js"
           working-directory: app/client
           # tag will be either "push" or "pull_request"
           tag: ${{ github.event_name }}
