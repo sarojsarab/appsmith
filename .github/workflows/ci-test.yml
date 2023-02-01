@@ -185,7 +185,7 @@ jobs:
             -e APPSMITH_AUDITLOG_ENABLED=true \
             -e APPSMITH_CLOUD_SERVICES_BASE_URL=http://host.docker.internal:5001 \
             --add-host=host.docker.internal:host-gateway \
-            cicontainer
+            appsmith/appsmith-ce:v1.9.1
 
       - name: Use Node.js 16.14.0
         if: steps.run_result.outputs.run_result != 'success'
