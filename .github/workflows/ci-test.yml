@@ -132,17 +132,19 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Download the client build artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: app/client/build
+#       - name: Download the client build artifact
+#         if: steps.run_result.outputs.run_result != 'success'
+#         uses: actions/download-artifact@v3
+#         with:
+#           name: build
+#           path: app/client/build
 
-      - name: Download the server build artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: app/server/dist/
+#       - name: Download the server build artifact
+#         if: steps.run_result.outputs.run_result != 'success'
+#         uses: actions/download-artifact@v3
+#         with:
+#           name: build
+#           path: app/server/dist/
 
       - name: Download the rts build artifact
         uses: actions/download-artifact@v3
