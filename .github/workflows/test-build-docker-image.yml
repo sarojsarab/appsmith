@@ -49,7 +49,7 @@ jobs:
     uses: ./.github/workflows/ci-test.yml
     secrets: inherit
     with:
-      pr: 0
+      pr: ${{ github.event.client_payload.pull_request.number }}
       
   ci-test-result:
     needs: [ci-test]
