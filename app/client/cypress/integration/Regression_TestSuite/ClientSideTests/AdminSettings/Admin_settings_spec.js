@@ -14,6 +14,7 @@ describe("Admin settings page", function() {
       body: { responseMeta: { status: 200, success: true }, data: {} },
     }).as("postEnvVariables");
   });
+  
 
   it("1. Should test that settings page is accessible to super user", () => {
     cy.LogOut();
