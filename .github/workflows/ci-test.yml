@@ -299,6 +299,11 @@ jobs:
           # tag will be either "push" or "pull_request"
           tag: ${{ github.event_name }}
           env: "NODE_ENV=development"
+          
+      - name: Delete the old screenshots
+        if: always()
+        run: |
+          rm -rf cypress/screenshots
 
       # In case of second attempt only run failed specs
       - name: Run the cypress test with failed tests
