@@ -94,7 +94,9 @@ jobs:
           name: combined_failed_spec_ci
           path: ~/combined_failed_spec_ci
 
-      - run: |
+      - name: print the file deatils
+        if: steps.run_result.outputs.run_result == 'failedtest'
+        run: |
           cd ~/combined_failed_spec_ci
           ls
             
