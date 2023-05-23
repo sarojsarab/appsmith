@@ -89,20 +89,23 @@ jobs:
       # In case this is second attempt try restoring failed tests
       - name: Restore the previous failed combine result
         if: steps.run_result.outputs.run_result == 'failedtest'
-        uses: martijnhols/actions-cache/restore@v3
+        uses: actions/download-artifact@v3
         with:
-          path: |
-            ~/combined_failed_spec_ci
-          key: ${{ github.run_id }}-"ci-test-result"
-          restore-keys: |
-            ${{ github.run_id }}-${{ github.job }}
+          name: combined_failed_spec_ci
+          path: ~/combined_failed_spec_ci
+
+      - name: print the file deatils
+        if: steps.run_result.outputs.run_result == 'failedtest'
+        run: |
+          cd ~/combined_failed_spec_ci
+          ls
             
       # failed_spec_env will contain list of all failed specs
       # We are using environment variable instead of regular to support multiline
       - name: Get failed_spec
         if: steps.run_result.outputs.run_result == 'failedtest'
         run: |
-          failed_spec_env=$(cat ~/combined_failed_spec_ci)
+          failed_spec_env=$(cat ~/combined_failed_spec_ci/combined_failed_spec_ci)
           echo "failed_spec_env<<EOF" >> $GITHUB_ENV
           echo "$failed_spec_env" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
@@ -116,10 +119,16 @@ jobs:
       - name: cat run_result
         run: echo ${{ steps.run_result.outputs.run_result }}
 
+#       - name: Download Docker image artifact
+#         uses: actions/download-artifact@v3
+#         with:
+#           name: cicontainer
+
       - name: Download Docker image artifact
-        uses: actions/download-artifact@v3
+        uses: dawidd6/action-download-artifact@v2
         with:
           name: cicontainer
+          run_id: 5053916380
 
       - name: Load Docker image from tar file
         run: |
@@ -132,15 +141,15 @@ jobs:
         run: |
           mkdir -p cicontainerlocal/stacks/configuration/
 
-      #Download the oldstacks from appsmithorg/oldstacks repo
-      - name: Download the oldstack
-        uses: actions/checkout@v3
-        with:
-          ref: main
-          repository: appsmithorg/ci-oldstack
-          token: ${{ secrets.APPSMITH_CI_TEST_PAT }}
-          submodules: 'recursive'
-          path: cicontainerlocal/oldstack
+#       #Download the oldstacks from appsmithorg/oldstacks repo
+#       - name: Download the oldstack
+#         uses: actions/checkout@v3
+#         with:
+#           ref: main
+#           repository: appsmithorg/ci-oldstack
+#           token: ${{ secrets.APPSMITH_CI_TEST_PAT }}
+#           submodules: 'recursive'
+#           path: cicontainerlocal/oldstack
 
       - name: Run Appsmith & TED docker image
         if: steps.run_result.outputs.run_result != 'success'
