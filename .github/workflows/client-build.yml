@@ -45,9 +45,6 @@ jobs:
       # The checkout steps MUST happen first because the default directory is set according to the code base.
       # GitHub Action expects all future commands to be executed in the code directory. Hence, we need to check out
       # the code before doing anything else.
-      
-      - name: print the github ref
-        run: echo ${{ github.ref }}
 
       # Check out merge commit with the base branch in case this workflow is invoked via pull request
       - name: Checkout the merged commit from PR and base branch
