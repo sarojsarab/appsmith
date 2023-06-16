@@ -73,6 +73,31 @@ jobs:
       run:
         shell: bash
     steps:
+    
+      - name: Slack Notification
+        if: needs.ci-test.result != 'success'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: testing-saroj
+          SLACK_COLOR: ${{ job.status }} 
+          SLACK_ICON_EMOJI: ':bell:'
+          SLACK_MESSAGE: 'failed blah blah blah'
+          SLACK_TITLE: Scheduled airgap run
+          SLACK_USERNAME: Github Scheduler
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          
+      - name: Slack Notification
+        if: needs.ci-test.result == 'success'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: testing-saroj
+          SLACK_COLOR: ${{ job.status }} 
+          SLACK_ICON_EMOJI: ':bell:'
+          SLACK_MESSAGE: 'Successfull :tada:'
+          SLACK_TITLE: Scheduled airgap run
+          SLACK_USERNAME: Github Scheduler
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          
       - run: echo "All ci-test matrices completed"
 
       # Deleting the existing dir's if any
@@ -116,30 +141,6 @@ jobs:
         with:
           name: combined_failed_spec_ci
           path: ~/combined_failed_spec_ci
-      
-      - name: Slack Notification
-        if: needs.ci-test.result != 'success'
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: testing-saroj
-          SLACK_COLOR: ${{ job.status }} 
-          SLACK_ICON_EMOJI: ':bell:'
-          SLACK_MESSAGE: 'failed blah blah blah'
-          SLACK_TITLE: Scheduled airgap run
-          SLACK_USERNAME: Github Scheduler
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          
-      - name: Slack Notification
-        if: needs.ci-test.result == 'success'
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: testing-saroj
-          SLACK_COLOR: ${{ job.status }} 
-          SLACK_ICON_EMOJI: ':bell:'
-          SLACK_MESSAGE: 'Successfull :tada:'
-          SLACK_TITLE: Scheduled airgap run
-          SLACK_USERNAME: Github Scheduler
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
       - name: Return status for ui-matrix
         run: |
