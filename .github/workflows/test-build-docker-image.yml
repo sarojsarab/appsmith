@@ -14,7 +14,10 @@ jobs:
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
     steps:
-    # For pull requests it's not necessary to checkout the code
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        ref: refs/pull/6/merge
     - uses: dorny/paths-filter@v2
       id: filter
       with:
@@ -28,22 +31,22 @@ jobs:
     uses: ./.github/workflows/server-build.yml
     secrets: inherit
     with:
-      pr: 0
-      skip-tests: ${{ !needs.changeset.outputs.backend }}
+      pr: 6
+      skip-tests: ${{ needs.changeset.outputs.backend == 'false' }}
 
   client-build:
     name: client-build
     uses: ./.github/workflows/client-build.yml
     secrets: inherit
     with:
-      pr: 0
+      pr: 6
 
   rts-build:
     name: rts-build
     uses: ./.github/workflows/rts-build.yml
     secrets: inherit
     with:
-      pr: 0
+      pr: 6
 
   build-docker-image:
     needs: [ client-build, server-build, rts-build ]
@@ -53,7 +56,7 @@ jobs:
     uses: ./.github/workflows/build-docker-image.yml
     secrets: inherit
     with:
-      pr: 0
+      pr: 6
 
   ci-test:
     needs: [ build-docker-image ]
@@ -63,7 +66,7 @@ jobs:
     uses: ./.github/workflows/ci-test.yml
     secrets: inherit
     with:
-      pr: 0
+      pr: 6
 
   ci-test-result:
     needs: [ci-test]
