@@ -76,9 +76,10 @@ jobs:
           files=(${{steps.files.outputs.added_files}})
           non_ts_files=()
           for file in "${files[@]}"; do
-          if [[ $file != *.ts ]]; then
-            non_ts_files+=("$file")
-          fi
+            if [[ $file != *.ts ]]; then
+              non_ts_files+=("$file")
+            fi
+          done
           echo "non_ts_files=${non_ts_files[@]}" >> $GITHUB_OUTPUT
           echo "non_ts_files_count=${#non_ts_files[@]}" >> $GITHUB_OUTPUT
           
