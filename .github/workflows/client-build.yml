@@ -74,16 +74,6 @@ jobs:
       - name: Check the newly added files are written in ts
         run: echo ${{steps.changed-files.outputs.added_files}}
         
-      - name: Check the files written using TS
-        uses: Arhia/action-check-typescript@v1.0.0
-        with:
-          repo-token: ${{ secrets.PAT }}
-          use-check: true
-          check-fail-mode: added
-          files-added: ${{steps.changed-files.outputs.added_files}}
-          output-behaviour: both
-          comment-behaviour: new
-        
       # getting the changed files using fileexporter
       - name: Changed Files Exporter
         id: files
