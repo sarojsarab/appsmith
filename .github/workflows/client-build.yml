@@ -77,7 +77,7 @@ jobs:
           non_ts_files=()
           for file in "${files[@]}"; do
             if [[ $file != *.ts ]]; then
-              non_ts_files+=("$file")
+              non_ts_files+=("\n <li>$file")
             fi
           done
           echo "non_ts_files=${non_ts_files[@]}" >> $GITHUB_OUTPUT
@@ -90,9 +90,8 @@ jobs:
           issue-number: 6
           token: ${{ secrets.PAT }}
           body: |
-            Workflow run: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>.
-            Below files are written in js expected ts
-            ${{ steps.check_files.outputs.non_ts_files }}
+            <b>Below files are written in js expected ts. Please fix and rerun the workflow.</b>
+            <ol>${{ steps.check_files.outputs.non_ts_files }}</ol>
       - if: ${{ steps.check_files.outputs.non_ts_files_count }} != 0
         run: exit 1
 
