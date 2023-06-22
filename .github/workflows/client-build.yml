@@ -73,7 +73,7 @@ jobs:
       - name: Check the newly added files are written in ts
         id: check_files
         run: |
-          files=(${{steps.changed-files.outputs.added_files}})
+          files=(${{steps.files.outputs.added_files}})
           non_ts_files=()
           for file in "${files[@]}"; do
           if [[ $file != *.ts ]]; then
