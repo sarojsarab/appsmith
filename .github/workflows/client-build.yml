@@ -79,7 +79,7 @@ jobs:
         uses: umani/changed-files@v4.0.0
         with:
           repo-token: ${{ secrets.PAT }}
-          pattern: 'app/client/cypress/e2e/**'
+          pattern: 'app/client/cypress/e2e/.*'
           pr-number: 6
           
       - name: Print the files from files
