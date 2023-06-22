@@ -88,6 +88,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: 6
+          token: ${{ secrets.PAT }}
           body: |
             Workflow run: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>.
             Below files are written in js expected ts
