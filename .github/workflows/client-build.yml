@@ -72,6 +72,17 @@ jobs:
           
       - name: Check the newly added files are written in ts
         run: echo ${{steps.changed-files.outputs.added_files}}
+        
+      # getting the changed files using fileexporter
+      - name: Changed Files Exporter
+        id: files
+        uses: umani/changed-files@v4.0.0
+        with:
+          token: ${{ secrets.PAT }}
+          pattern: 'app/client/cypress/e2e/**'
+          
+      - name: Print the files from files
+        run: echo ${{ steps.files.outputs.files_created }}
 
       # Create a run record exactly at the time of merge to release to
       # ensure we compare run details with code at this point
