@@ -64,7 +64,7 @@ jobs:
           
       # get all the files changes in the cypress/e2e folder    
       - name: Get changed files in the cypress/e2e folder
-        id: changed-files
+        id: files
         uses: tj-actions/changed-files@v36
         with:
           base_sha: ${{ github.event.client_payload.pull_request.base.sha }}
@@ -72,30 +72,28 @@ jobs:
           json: true
           
       - name: Check the newly added files are written in ts
-        run: echo ${{steps.changed-files.outputs.added_files}}
-        
-      # getting the changed files using fileexporter
-      - name: Changed Files Exporter
-        id: files
-        uses: umani/changed-files@v4.0.0
-        with:
-          repo-token: ${{ secrets.PAT }}
-          pattern: 'app/client/cypress/e2e/.*'
-          pr-number: 6
-          result-encoding: 'json'
+        id: check_files
+        run: |
+          files=(${{steps.changed-files.outputs.added_files}})
+          non_ts_files=()
+          for file in "${files[@]}"; do
+          if [[ $file != *.ts ]]; then
+            non_ts_files+=("$file")
+          fi
+          echo "non_ts_files=${non_ts_files[@]}" >> $GITHUB_OUTPUT
+          echo "non_ts_files_count=${#non_ts_files[@]}" >> $GITHUB_OUTPUT
           
-      - name: Print the files from files
-        run: echo ${{ steps.files.outputs.files_created }}
-        
-      - name: Check the files written using TS from files
-        uses: Arhia/action-check-typescript@v1.0.0
+      - name: Comment in PR if test files are not written in ts
+        if: ${{ steps.check_files.outputs.non_ts_files_count }} != 0
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          repo-token: ${{ secrets.PAT }}
-          use-check: true
-          check-fail-mode: added
-          files-added: ${{steps.files.outputs.files_created}}
-          output-behaviour: both
-          comment-behaviour: new
+          issue-number: 6
+          body: |
+            Workflow run: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>.
+            Below files are written in js expected ts
+            ${{ steps.check_files.outputs.non_ts_files }}
+      - if: ${{ steps.check_files.outputs.non_ts_files_count }} != 0
+        run: exit 1
 
       # Create a run record exactly at the time of merge to release to
       # ensure we compare run details with code at this point
