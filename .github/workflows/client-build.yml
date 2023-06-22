@@ -78,7 +78,7 @@ jobs:
         id: files
         uses: umani/changed-files@v4.0.0
         with:
-          token: ${{ secrets.PAT }}
+          repo-token: ${{ secrets.PAT }}
           pattern: 'app/client/cypress/e2e/**'
           
       - name: Print the files from files
