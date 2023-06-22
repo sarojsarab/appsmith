@@ -77,7 +77,7 @@ jobs:
           non_ts_files=()
           for file in "${files[@]}"; do
             if [[ $file != *.ts ]]; then
-              non_ts_files+=("\n <li>$file")
+              non_ts_files+=("<li>$file")
             fi
           done
           echo "non_ts_files=${non_ts_files[@]}" >> $GITHUB_OUTPUT
