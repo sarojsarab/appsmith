@@ -84,6 +84,7 @@ jobs:
           echo "non_ts_files_count=${#non_ts_files[@]}" >> $GITHUB_OUTPUT
       - run: |
           echo ${{ steps.check_files.outputs.non_ts_files_count }} == 0
+          echo ${{ steps.check_files.outputs.non_ts_files_count }} == "0"
           echo ${{ steps.check_files.outputs.non_ts_files }}
           
       - name: Comment in PR if test files are not written in ts
