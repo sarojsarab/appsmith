@@ -9,11 +9,22 @@ on:
 jobs:
   setup-params:
     runs-on: ubuntu-latest
+    outputs:
+      pr: ${{steps.args.outputs.pr}}
+      runId: ${{steps.args.outputs.runId}}
     steps:
-      - name: print the command params
+      - name: Set args
+        id: args
         run: |
-          echo "${{toJSON(github.event.client_payload.slash_command.args)}}"
-          echo "${{'o' == 'o' ? 'test1': 'test2'}}"
+          if [[ ${{github.event_name}} == 'repository_dispatch' ]]; then
+            if [[ ${{toJSON(github.event.client_payload.slash_command.args.named)}} | jq 'has("runId")' ]]
+              echo "runId=${{ github.event.client_payload.slash_command.args.named.runId }}" >> $GITHUB_OUTPUT
+              echo "pr=${{ github.event.client_payload.pull_request.number }}" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "runId=${{ inputs.previous_run_id }}" >> $GITHUB_OUTPUT
+            echo "pr=0" >> $GITHUB_OUTPUT
+          fi
          
   server-build:
     name: server-build
