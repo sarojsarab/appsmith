@@ -24,7 +24,8 @@ jobs:
         run: |
           if [[ ${{github.event_name}} == 'repository_dispatch' ]]; then
             echo "pr=${{ github.event.client_payload.pull_request.number }}" >> $GITHUB_OUTPUT
-            if [[ ${{toJSON(github.event.client_payload.slash_command.args.named)}} | jq 'has("runId")' ]]
+            checkArg=echo "${{toJSON(github.event.client_payload.slash_command.args.named)}} | jq 'has("runId")'"
+            if [[ $checkArg ]]
               echo "runId=${{ github.event.client_payload.slash_command.args.named.runId }}" >> $GITHUB_OUTPUT
             else
               echo "runId=0" >> $GITHUB_OUTPUT
