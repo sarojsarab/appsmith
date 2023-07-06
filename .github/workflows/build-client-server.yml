@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: print the command params
         run: |
-         cat ${{ github.event.client_payload.slash_command.args }}
+         echo "${{ github.event.client_payload.slash_command.args }}"
          
   server-build:
     name: server-build
