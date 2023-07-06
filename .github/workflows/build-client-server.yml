@@ -3,8 +3,17 @@ name: Build client server without running Unit tests
 on:
   # This workflow can be triggered manually from the GitHub Actions page
   workflow_dispatch:
+  repository_dispatch:
+    types: [ ci-test-limit-command ]
 
 jobs:
+  setup-params:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print the command params
+        run: |
+         cat ${{ github.event.client_payload.slash_command.args }}
+         
   server-build:
     name: server-build
     uses: ./.github/workflows/server-build.yml
