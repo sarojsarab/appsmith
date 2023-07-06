@@ -15,6 +15,7 @@ describe("Arango datasource test cases", function () {
     }).as("testDatasource");
     cy.testSaveDatasource(false);
     dataSources.DeleteDatasouceFromActiveTab("ArangoWithnoTrailing");
+    
   });
 
   it("2. Create with trailing white spaces in host address and database name, test, save then delete a Arango datasource", function () {
