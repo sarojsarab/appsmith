@@ -3,6 +3,12 @@ name: Build client server without running Unit tests
 on:
   # This workflow can be triggered manually from the GitHub Actions page
   workflow_dispatch:
+    inputs:
+      previous_run_id:
+        description: 'Run id to download the docker image artifact:'
+        required: false
+        type: string
+        default: "0"
   repository_dispatch:
     types: [ ci-test-limit-command ]
 
