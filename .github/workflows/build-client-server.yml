@@ -26,7 +26,7 @@ jobs:
             echo "pr=${{ github.event.client_payload.pull_request.number }}" >> $GITHUB_OUTPUT
             checkArg=`echo ${{toJSON(github.event.client_payload.slash_command.args.named)}} | jq 'has("runId")'`
             cat $checkArg
-            if [[ $checkArg ]]
+            if [[ $checkArg ]]; then
               echo "runId=${{ github.event.client_payload.slash_command.args.named.runId }}" >> $GITHUB_OUTPUT
             else
               echo "runId=0" >> $GITHUB_OUTPUT
