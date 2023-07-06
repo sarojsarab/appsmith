@@ -13,6 +13,7 @@ jobs:
       - name: print the command params
         run: |
           echo "${{toJSON(github.event.client_payload.slash_command.args)}}"
+          echo "${{'o' == 'o' ? 'test1': 'test2'}}"
          
   server-build:
     name: server-build
