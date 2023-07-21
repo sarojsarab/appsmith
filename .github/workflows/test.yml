@@ -1,0 +1,15 @@
+name: Testing my custom solutions
+
+on:
+  # This line enables manual triggering of this workflow.
+  workflow_dispatch:
+
+jobs:
+  ci-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print run attempt
+        run : echo "${{github.run_attempt}}"
+        
+      - name: Print previous run attempt
+        run : echo "$((${{github.run_attempt}}-1))"
