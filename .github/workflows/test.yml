@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print run attempt
-        run : echo "${{github.run_attempt}}"
+        run : echo "failed-spec-${{github.run_attempt}}"
         
       - name: Print previous run attempt
-        run : echo "$((${{github.run_attempt}}-1))"
+        run : echo "failed-spec-$((${{github.run_attempt}}-1))"
