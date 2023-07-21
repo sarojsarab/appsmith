@@ -13,4 +13,9 @@ jobs:
         
       - name: Print previous run attempt
         run : echo "failed_spec_artifact=failed-spec-ci-$((${{github.run_attempt}}-1))" >> $GITHUB_ENV
-      - run : echo "${{env.failed_spec_artifact}}"
+      - name: Restore the previous failed combine result
+        if: steps.run_result.outputs.run_result == 'failedtest'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.failed_spec_artifact }}
+          path: ~/failed_spec_ci
