@@ -11,6 +11,7 @@ let homePage = ObjectsRegistry.HomePage,
   deployMode = ObjectsRegistry.DeployMode,
   propPane = ObjectsRegistry.PropertyPane;
 
+
 describe("AForce - Community Issues page validations", function () {
   before(function () {
     agHelper.ClearLocalStorageCache();
